@@ -64,11 +64,11 @@ public class InternalWindowController {
     private void collapse(){
         if(!this.collapsed) {
             this.heightBeforeCollapse = this.mainPane.getHeight();
-            this.mainPane.resize(this.mainPane.getWidth(), 30);
+            this.mainPane.setPrefHeight(30);
             this.collapsed = true;
         }
         else {
-            this.mainPane.resize(this.mainPane.getWidth(), this.heightBeforeCollapse);
+            this.mainPane.setPrefHeight(this.heightBeforeCollapse);
             this.collapsed = false;
         }
     }

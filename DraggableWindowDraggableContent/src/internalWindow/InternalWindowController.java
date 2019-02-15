@@ -50,7 +50,8 @@ public class InternalWindowController {
 
     @FXML
     private void close(){
-        Platform.exit();
+        this.mainPane.setDisable(true);
+        this.mainPane.setVisible(false);
     }
 
     @FXML

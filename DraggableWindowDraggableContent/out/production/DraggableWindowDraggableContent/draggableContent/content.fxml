@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<fx:root type="ScrollPane" fx:id="scrollPane" fx:controller="draggableContent.ContentPaneController"
+         xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fitToWidth="true">
+   <content>
+     <AnchorPane fx:id="anchorPane" prefHeight="800" styleClass="anchor-pane"/>
+   </content>
+</fx:root>

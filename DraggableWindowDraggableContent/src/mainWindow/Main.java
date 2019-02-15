@@ -24,7 +24,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("mainWindow.fxml"));
         primaryStage.setTitle("Hello World");
         Scene scene = new Scene(root, 400, 300);
-        scene.getStylesheets().add("/mainWindow/style.css");
+        scene.getStylesheets().add("/mainWindow/windowStyle.css");
         scene.setFill(Color.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.show();

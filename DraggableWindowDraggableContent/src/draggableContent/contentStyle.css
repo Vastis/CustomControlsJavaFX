@@ -1,0 +1,37 @@
+* {
+    -fx-primary-color: greenyellow;
+    -fx-darker-color: green;
+    -fx-darkest-color: darkgreen;
+}
+
+.scroll-pane {
+    -fx-background-color: inherit;
+}
+
+.scroll-pane > .corner,
+.scroll-bar:horizontal,
+.scroll-bar:vertical {
+    -fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-darker-color;
+    -fx-background-radius: 5em;
+}
+
+.anchor-pane {
+    -fx-background-color: green;
+}
+

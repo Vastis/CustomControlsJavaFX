@@ -47,10 +47,12 @@ public class InternalWindowController {
     }
 
     private void dragWindow(MouseEvent e) {
-        this.translateX = e.getScreenX() - this.xOffset;
-        this.translateY = e.getScreenY() - this.yOffset;
-        this.mainPane.setTranslateX(this.translateX);
-        this.mainPane.setTranslateY(this.translateY);
+        if(!this.minimized) {
+            this.translateX = e.getScreenX() - this.xOffset;
+            this.translateY = e.getScreenY() - this.yOffset;
+            this.mainPane.setTranslateX(this.translateX);
+            this.mainPane.setTranslateY(this.translateY);
+        }
     }
 
     @FXML

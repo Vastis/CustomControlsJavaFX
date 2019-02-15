@@ -10,13 +10,17 @@ import javafx.stage.Stage;
 public class InternalWindowController {
 
     private Stage stage;
-    private boolean collapsed = false;
+    private boolean
+            collapsed = false,
+            minimized = false;
     private double
             heightBeforeCollapse,
             xOffset,
             yOffset,
             translateX,
-            translateY;
+            translateY,
+            beforeMinimizingTranslateX,
+            beforeMinimizingTranslateY;
 
     @FXML
     private AnchorPane
@@ -36,7 +40,8 @@ public class InternalWindowController {
     }
 
     private void setMouseCoordinates(MouseEvent e) {
-        setRoot();
+        if(this.stage == null)
+            this.stage = (Stage)this.mainPane.getScene().getWindow();
         this.xOffset = e.getScreenX() - this.translateX;
         this.yOffset = e.getScreenY() - this.translateY;
     }
@@ -56,25 +61,32 @@ public class InternalWindowController {
 
     @FXML
     private void hide(){
-        setRoot();
-        this.stage.setIconified(true);
+        if(!collapsed) {
+            if (!this.minimized) {
+                this.heightBeforeCollapse = this.mainPane.getHeight();
+                this.mainPane.setPrefHeight(30);
+                this.beforeMinimizingTranslateX = this.translateX;
+                this.beforeMinimizingTranslateY = this.translateY;
+                this.mainPane.setTranslateX(0);
+                this.mainPane.setTranslateY(0);
+            } else {
+                this.mainPane.setPrefHeight(this.heightBeforeCollapse);
+                this.mainPane.setTranslateX(this.beforeMinimizingTranslateX);
+                this.mainPane.setTranslateY(this.beforeMinimizingTranslateY);
+            }
+            this.minimized = !this.minimized;
+        }
     }
 
     @FXML
     private void collapse(){
-        if(!this.collapsed) {
-            this.heightBeforeCollapse = this.mainPane.getHeight();
-            this.mainPane.setPrefHeight(30);
-            this.collapsed = true;
+        if(!this.minimized) {
+            if (!this.collapsed) {
+                this.heightBeforeCollapse = this.mainPane.getHeight();
+                this.mainPane.setPrefHeight(30);
+            } else
+                this.mainPane.setPrefHeight(this.heightBeforeCollapse);
+            this.collapsed = !this.collapsed;
         }
-        else {
-            this.mainPane.setPrefHeight(this.heightBeforeCollapse);
-            this.collapsed = false;
-        }
-    }
-
-    public void setRoot() {
-        if(this.stage == null)
-            this.stage = (Stage)this.mainPane.getScene().getWindow();
     }
 }

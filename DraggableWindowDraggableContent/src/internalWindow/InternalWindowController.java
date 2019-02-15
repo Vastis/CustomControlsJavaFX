@@ -71,10 +71,12 @@ public class InternalWindowController {
                 this.beforeMinimizingTranslateY = this.translateY;
                 this.mainPane.setTranslateX(0);
                 this.mainPane.setTranslateY(0);
+                this.collapseButton.setDisable(true);
             } else {
                 this.mainPane.setPrefHeight(this.heightBeforeCollapse);
                 this.mainPane.setTranslateX(this.beforeMinimizingTranslateX);
                 this.mainPane.setTranslateY(this.beforeMinimizingTranslateY);
+                this.collapseButton.setDisable(false);
             }
             this.minimized = !this.minimized;
         }
@@ -86,8 +88,11 @@ public class InternalWindowController {
             if (!this.collapsed) {
                 this.heightBeforeCollapse = this.mainPane.getHeight();
                 this.mainPane.setPrefHeight(30);
-            } else
+                this.hideButton.setDisable(true);
+            } else {
                 this.mainPane.setPrefHeight(this.heightBeforeCollapse);
+                this.hideButton.setDisable(false);
+            }
             this.collapsed = !this.collapsed;
         }
     }

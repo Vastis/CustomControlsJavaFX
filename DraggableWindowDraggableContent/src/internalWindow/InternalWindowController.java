@@ -1,4 +1,4 @@
-package mainWindow;
+package internalWindow;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -7,14 +7,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class MainWindowController {
+public class InternalWindowController {
 
-    private Stage root;
+    private Stage stage;
     private boolean collapsed = false;
     private double
             heightBeforeCollapse,
             xOffset,
-            yOffset;
+            yOffset,
+            translateX,
+            translateY;
 
     @FXML
     private AnchorPane
@@ -35,13 +37,15 @@ public class MainWindowController {
 
     private void setMouseCoordinates(MouseEvent e) {
         setRoot();
-        this.xOffset = this.root.getX() - e.getScreenX();
-        this.yOffset = this.root.getY() - e.getScreenY();
+        this.xOffset = e.getScreenX() - this.translateX;
+        this.yOffset = e.getScreenY() - this.translateY;
     }
 
     private void dragWindow(MouseEvent e) {
-        this.root.setX(e.getScreenX() + this.xOffset);
-        this.root.setY(e.getScreenY() + this.yOffset);
+        this.translateX = e.getScreenX() - this.xOffset;
+        this.translateY = e.getScreenY() - this.yOffset;
+        this.mainPane.setTranslateX(this.translateX);
+        this.mainPane.setTranslateY(this.translateY);
     }
 
     @FXML
@@ -52,7 +56,7 @@ public class MainWindowController {
     @FXML
     private void hide(){
         setRoot();
-        this.root.setIconified(true);
+        this.stage.setIconified(true);
     }
 
     @FXML
@@ -69,7 +73,7 @@ public class MainWindowController {
     }
 
     public void setRoot() {
-        if(this.root == null)
-            this.root = (Stage)this.mainPane.getScene().getWindow();
+        if(this.stage == null)
+            this.stage = (Stage)this.mainPane.getScene().getWindow();
     }
 }

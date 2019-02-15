@@ -1,0 +1,27 @@
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Button?>
+
+<?import draggableContent.DraggableContentPane?>
+<fx:root type="AnchorPane" fx:id="mainPane" styleClass="main-pane"
+            fx:controller="internalWindow.InternalWindowController"
+            xmlns:fx="http://javafx.com/fxml">
+    <children>
+        <AnchorPane fx:id="menuBarPane" styleClass="menu-bar-pane"
+                    prefWidth="${mainPane.width}">
+            <children>
+                <Button fx:id="closeButton" onAction="#close" styleClass="menu-bar-button" text="X"
+                        AnchorPane.rightAnchor="5" AnchorPane.topAnchor="5" AnchorPane.bottomAnchor="5"/>
+                <Button fx:id="hideButton" onAction="#hide" styleClass="menu-bar-button" text="-"
+                        AnchorPane.rightAnchor="32" AnchorPane.topAnchor="5" AnchorPane.bottomAnchor="5"/>
+                <Button fx:id="collapseButton" onAction="#collapse" styleClass="menu-bar-button" text="^"
+                        AnchorPane.rightAnchor="59" AnchorPane.topAnchor="5" AnchorPane.bottomAnchor="5"/>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="contentPane"
+                    prefWidth="${mainPane.width}" AnchorPane.topAnchor="35" AnchorPane.bottomAnchor="10">
+            <children>
+                <DraggableContentPane prefWidth="${mainPane.width}" styleClass="content-pane" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"/>
+            </children>
+        </AnchorPane>
+    </children>
+</fx:root>

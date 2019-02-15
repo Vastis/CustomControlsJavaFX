@@ -40,7 +40,7 @@ public class ContentPaneController {
 
     private void addMouseListeners() {
         this.anchorPane.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> this.selectedItem = getHoveredItem(e));
-        this.anchorPane.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> this.selectedItem = null);
+        this.anchorPane.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> deselectItem(e));
         this.anchorPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> {
             if (this.selectedItem == null) e.consume();
             else dragSelectedItem(e);
@@ -56,7 +56,6 @@ public class ContentPaneController {
     private void swap(MouseEvent e) {
         ContentItem itemHovered = this.contentProvider.getItemAt(e.getX(), e.getY(), this.selectedItem);
         if(itemHovered != null){
-            System.out.println("aaa");
             double tmpX = itemHovered.getPosX();
             double tmpY = itemHovered.getPosY();
             itemHovered.setPosX(this.swapPosX);
@@ -64,6 +63,12 @@ public class ContentPaneController {
             this.swapPosX = tmpX;
             this.swapPosY = tmpY;
         }
+    }
+
+    private void deselectItem(MouseEvent e) {
+        this.selectedItem.setPosX(this.swapPosX);
+        this.selectedItem.setPosY(this.swapPosY);
+        this.selectedItem = null;
     }
 
     private ContentItem getHoveredItem(MouseEvent e) {

@@ -15,8 +15,8 @@ public class ContentPaneController {
     private ContentProvider contentProvider;
     private ContentItem selectedItem = null;
     private double
-            selectedItemPosX,
-            selectedItemPosY,
+            swapPosX,
+            swapPosY,
             xOffset,
             yOffset;
 
@@ -33,12 +33,13 @@ public class ContentPaneController {
 
     private void resetContent(Number newValue) {
         if(this.contentProvider != null)
-            this.contentProvider.removeContent();
-        this.contentProvider = new ContentProvider(this.anchorPane, newValue.doubleValue());
+            this.contentProvider.resetContent(newValue.doubleValue());
+        else
+            this.contentProvider = new ContentProvider(this.anchorPane, newValue.doubleValue());
     }
 
     private void addMouseListeners() {
-        this.anchorPane.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> this.selectedItem = getSelectedItem(e));
+        this.anchorPane.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> this.selectedItem = getHoveredItem(e));
         this.anchorPane.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> this.selectedItem = null);
         this.anchorPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> {
             if (this.selectedItem == null) e.consume();
@@ -49,15 +50,29 @@ public class ContentPaneController {
     private void dragSelectedItem(MouseEvent e) {
         this.selectedItem.setPosX(e.getScreenX() + xOffset);
         this.selectedItem.setPosY(e.getScreenY() + yOffset);
+        swap(e);
     }
 
-    private ContentItem getSelectedItem(MouseEvent e) {
+    private void swap(MouseEvent e) {
+        ContentItem itemHovered = this.contentProvider.getItemAt(e.getX(), e.getY(), this.selectedItem);
+        if(itemHovered != null){
+            System.out.println("aaa");
+            double tmpX = itemHovered.getPosX();
+            double tmpY = itemHovered.getPosY();
+            itemHovered.setPosX(this.swapPosX);
+            itemHovered.setPosY(this.swapPosY);
+            this.swapPosX = tmpX;
+            this.swapPosY = tmpY;
+        }
+    }
+
+    private ContentItem getHoveredItem(MouseEvent e) {
         ContentItem selectedItem = this.contentProvider.getItemAt(e.getX(), e.getY());
         if(selectedItem != null){
-            this.selectedItemPosX = selectedItem.getPosX();
-            this.selectedItemPosY = selectedItem.getPosY();
-            this.xOffset = this.selectedItemPosX - e.getScreenX();
-            this.yOffset = this.selectedItemPosY - e.getScreenY();
+            this.swapPosX = selectedItem.getPosX();
+            this.swapPosY = selectedItem.getPosY();
+            this.xOffset = this.swapPosX - e.getScreenX();
+            this.yOffset = this.swapPosY - e.getScreenY();
         }
         return selectedItem;
     }

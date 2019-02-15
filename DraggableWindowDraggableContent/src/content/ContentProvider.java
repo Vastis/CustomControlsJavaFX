@@ -20,8 +20,8 @@ public class ContentProvider {
 
     public ContentProvider(AnchorPane anchorPane, double currentWindowHeight){
         this.anchorPane = anchorPane;
-        this.currentWindowHeight = currentWindowHeight;
         computeAssets();
+        computeWindowHeight(currentWindowHeight);
         initContent();
     }
 
@@ -32,7 +32,10 @@ public class ContentProvider {
         this.itemWidth = this.xOffset - 2 * delta;
         this.itemHeight = this.itemWidth;
         this.yOffset = this.xOffset;
+    }
 
+    private void computeWindowHeight(double currentWindowHeight){
+        this.currentWindowHeight = currentWindowHeight;
         if(this.currentWindowHeight < this.rows * this.yOffset)
             this.currentWindowHeight = this.rows * this.yOffset;
         this.anchorPane.setPrefHeight(this.currentWindowHeight);
@@ -55,14 +58,23 @@ public class ContentProvider {
         item.addItem(this.anchorPane);
     }
 
-    public void removeContent(){
+    public void resetContent(double currentWindowHeight){
         for(ContentItem item : this.items)
             this.anchorPane.getChildren().remove(item.getRectangle());
+        computeWindowHeight(currentWindowHeight);
+        initContent();
     }
 
     public ContentItem getItemAt(double posX, double posY) {
         for(ContentItem item : this.items){
             if(item.isPointingAtItem(posX, posY))
+                return item;
+        }
+        return null;
+    }
+    public ContentItem getItemAt(double posX, double posY, ContentItem different) {
+        for(ContentItem item : this.items){
+            if(!item.equals(different) && item.isPointingAtItem(posX, posY))
                 return item;
         }
         return null;

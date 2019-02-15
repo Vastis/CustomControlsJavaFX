@@ -13,6 +13,7 @@ public class DraggableContentPane extends ScrollPane {
         loader.setRoot(this);
         try {
             loader.load();
+            this.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         } catch (IOException e){
             System.err.println("Couldn't load the content...");
         }

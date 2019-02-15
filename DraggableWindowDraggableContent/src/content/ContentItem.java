@@ -11,7 +11,6 @@ public class ContentItem {
     public ContentItem(double posX, double posY, double width, double height){
         this.rectangle = new Rectangle(posX, posY, width, height);
         this.rectangle.setFill(Color.RED);
-        System.out.println(getPosX() + " " + getPosY()  + " " + getHeight() +  " "+ getWidth());
     }
 
     public void addItem(AnchorPane anchorPane){

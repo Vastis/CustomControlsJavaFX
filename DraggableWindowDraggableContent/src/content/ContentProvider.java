@@ -8,18 +8,19 @@ public class ContentProvider {
 
     private static final int
             maxCols = 4,
-            contentItems = 39,
-            delta = 3;
+            contentItems = 3,
+            delta = 5;
 
     private AnchorPane anchorPane;
 
     private int rows;
-    private double xOffset, yOffset, itemWidth, itemHeight;
+    private double xOffset, yOffset, itemWidth, itemHeight, currentWindowHeight;
 
     private ArrayList<ContentItem> items;
 
-    public ContentProvider(AnchorPane anchorPane){
+    public ContentProvider(AnchorPane anchorPane, double currentWindowHeight){
         this.anchorPane = anchorPane;
+        this.currentWindowHeight = currentWindowHeight;
         computeAssets();
         initContent();
     }
@@ -27,18 +28,24 @@ public class ContentProvider {
     private void computeAssets() {
         //assumption : contentItems are squares.
         this.rows = 1 + (contentItems - 1) / maxCols;
-        this.xOffset = this.anchorPane.getWidth() / maxCols;
+        this.xOffset = (this.anchorPane.getWidth() - 18) / maxCols;
         this.itemWidth = this.xOffset - 2 * delta;
         this.itemHeight = this.itemWidth;
         this.yOffset = this.xOffset;
-        this.anchorPane.setPrefHeight(this.rows * this.yOffset);
+
+        if(this.currentWindowHeight < this.rows * this.yOffset)
+            this.currentWindowHeight = this.rows * this.yOffset;
+        this.anchorPane.setPrefHeight(this.currentWindowHeight);
     }
 
     private void initContent() {
         this.items = new ArrayList<>();
+        int counter = 0;
         for(int row = 0; row < this.rows; row++){
             for(int col = 0; col < maxCols; col++){
-                addItem(new ContentItem(this.xOffset * col + delta, this.yOffset * row + delta, this.itemWidth, this.itemHeight), row, col);
+                if(counter < contentItems)
+                    addItem(new ContentItem(this.xOffset * col + delta, this.yOffset * row + delta, this.itemWidth, this.itemHeight), row, col);
+                counter++;
             }
         }
     }

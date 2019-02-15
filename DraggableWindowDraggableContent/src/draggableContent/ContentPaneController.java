@@ -1,6 +1,8 @@
 package draggableContent;
 
 import content.ContentProvider;
+import javafx.beans.binding.NumberBinding;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
@@ -20,7 +22,7 @@ public class ContentPaneController {
     @FXML
     private void initialize(){
         addMouseListeners();
-        addPropertiesListeners();
+        bindProperties();
     }
 
     private void addMouseListeners() {
@@ -32,14 +34,14 @@ public class ContentPaneController {
         });
     }
 
-    public void addPropertiesListeners(){
-        this.anchorPane.widthProperty().addListener((obs, oldV, newV) -> resetContent());
+    public void bindProperties(){
+        this.anchorPane.widthProperty().addListener((obs, oldV, newV) -> resetContent(newV));
     }
 
-    private void resetContent() {
+    private void resetContent(Number newValue) {
         if(this.contentProvider != null)
             this.contentProvider.removeContent();
-        this.contentProvider = new ContentProvider(this.anchorPane);
+        this.contentProvider = new ContentProvider(this.anchorPane, newValue.doubleValue());
     }
 
     private void getInfo(MouseEvent e) {

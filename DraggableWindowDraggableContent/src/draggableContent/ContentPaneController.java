@@ -48,9 +48,19 @@ public class ContentPaneController {
     }
 
     private void dragSelectedItem(MouseEvent e) {
-        this.selectedItem.setPosX(e.getScreenX() + xOffset);
-        this.selectedItem.setPosY(e.getScreenY() + yOffset);
-        swap(e);
+        if(mouseWithinBounds(e)) {
+            this.selectedItem.setPosX(e.getScreenX() + xOffset);
+            this.selectedItem.setPosY(e.getScreenY() + yOffset);
+            swap(e);
+        }
+    }
+
+    private boolean mouseWithinBounds(MouseEvent e) {
+        return
+                e.getX() < this.anchorPane.getWidth()
+                && e.getX() >= 0
+                && e.getY() >= 0
+                && e.getY() < this.anchorPane.getHeight();
     }
 
     private void swap(MouseEvent e) {
@@ -66,9 +76,11 @@ public class ContentPaneController {
     }
 
     private void deselectItem(MouseEvent e) {
-        this.selectedItem.setPosX(this.swapPosX);
-        this.selectedItem.setPosY(this.swapPosY);
-        this.selectedItem = null;
+        if(this.selectedItem != null) {
+            this.selectedItem.setPosX(this.swapPosX);
+            this.selectedItem.setPosY(this.swapPosY);
+            this.selectedItem = null;
+        }
     }
 
     private ContentItem getHoveredItem(MouseEvent e) {

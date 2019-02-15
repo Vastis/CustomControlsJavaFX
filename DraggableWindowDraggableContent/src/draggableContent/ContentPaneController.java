@@ -1,5 +1,6 @@
 package draggableContent;
 
+import content.ContentItem;
 import content.ContentProvider;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -11,8 +12,13 @@ import javafx.scene.shape.Rectangle;
 
 public class ContentPaneController {
 
-    private boolean mousePressed = false;
     private ContentProvider contentProvider;
+    private ContentItem selectedItem = null;
+    private double
+            selectedItemPosX,
+            selectedItemPosY,
+            xOffset,
+            yOffset;
 
     @FXML
     private ScrollPane scrollPane;
@@ -22,19 +28,6 @@ public class ContentPaneController {
     @FXML
     private void initialize(){
         addMouseListeners();
-        bindProperties();
-    }
-
-    private void addMouseListeners() {
-        this.anchorPane.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> this.mousePressed = true);
-        this.anchorPane.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> this.mousePressed = false);
-        this.anchorPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> {
-            if (!this.mousePressed) e.consume();
-            else getInfo(e);
-        });
-    }
-
-    public void bindProperties(){
         this.anchorPane.widthProperty().addListener((obs, oldV, newV) -> resetContent(newV));
     }
 
@@ -44,12 +37,28 @@ public class ContentPaneController {
         this.contentProvider = new ContentProvider(this.anchorPane, newValue.doubleValue());
     }
 
-    private void getInfo(MouseEvent e) {
-        double posX = e.getX();
-        double posY = e.getY();
+    private void addMouseListeners() {
+        this.anchorPane.addEventFilter(MouseEvent.MOUSE_PRESSED, e -> this.selectedItem = getSelectedItem(e));
+        this.anchorPane.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> this.selectedItem = null);
+        this.anchorPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, e -> {
+            if (this.selectedItem == null) e.consume();
+            else dragSelectedItem(e);
+        });
+    }
 
-        System.out.println("Cords: " + posX + " " + posY);
-        System.out.println();
+    private void dragSelectedItem(MouseEvent e) {
+        this.selectedItem.setPosX(e.getScreenX() + xOffset);
+        this.selectedItem.setPosY(e.getScreenY() + yOffset);
+    }
 
+    private ContentItem getSelectedItem(MouseEvent e) {
+        ContentItem selectedItem = this.contentProvider.getItemAt(e.getX(), e.getY());
+        if(selectedItem != null){
+            this.selectedItemPosX = selectedItem.getPosX();
+            this.selectedItemPosY = selectedItem.getPosY();
+            this.xOffset = this.selectedItemPosX - e.getScreenX();
+            this.yOffset = this.selectedItemPosY - e.getScreenY();
+        }
+        return selectedItem;
     }
 }

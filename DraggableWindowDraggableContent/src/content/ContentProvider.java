@@ -8,7 +8,7 @@ public class ContentProvider {
 
     private static final int
             maxCols = 4,
-            contentItems = 3,
+            contentItems = 17,
             delta = 5;
 
     private AnchorPane anchorPane;
@@ -58,5 +58,13 @@ public class ContentProvider {
     public void removeContent(){
         for(ContentItem item : this.items)
             this.anchorPane.getChildren().remove(item.getRectangle());
+    }
+
+    public ContentItem getItemAt(double posX, double posY) {
+        for(ContentItem item : this.items){
+            if(item.isPointingAtItem(posX, posY))
+                return item;
+        }
+        return null;
     }
 }

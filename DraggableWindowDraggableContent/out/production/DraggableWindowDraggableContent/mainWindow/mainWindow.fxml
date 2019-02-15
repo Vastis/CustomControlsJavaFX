@@ -20,7 +20,7 @@
         <AnchorPane fx:id="contentPane"
                     prefWidth="${mainPane.width}" AnchorPane.topAnchor="35" AnchorPane.bottomAnchor="10">
             <children>
-                <DraggableContentPane prefWidth="${mainPane.width}" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"/>
+                <DraggableContentPane prefWidth="${mainPane.width}" styleClass="content-pane" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"/>
             </children>
         </AnchorPane>
     </children>

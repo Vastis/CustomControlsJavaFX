@@ -17,8 +17,6 @@ public class InternalWindowController {
             heightBeforeCollapse,
             xOffset,
             yOffset,
-            translateX,
-            translateY,
             beforeMinimizingTranslateX,
             beforeMinimizingTranslateY;
 
@@ -35,23 +33,21 @@ public class InternalWindowController {
 
     @FXML
     private void initialize(){
-        menuBarPane.setOnMousePressed(e -> setMouseCoordinates(e));
-        menuBarPane.setOnMouseDragged(e -> dragWindow(e));
+        this.menuBarPane.setOnMousePressed(e -> setMouseCoordinates(e));
+        this.menuBarPane.setOnMouseDragged(e -> dragWindow(e));
     }
 
     private void setMouseCoordinates(MouseEvent e) {
         if(this.stage == null)
             this.stage = (Stage)this.mainPane.getScene().getWindow();
-        this.xOffset = e.getScreenX() - this.translateX;
-        this.yOffset = e.getScreenY() - this.translateY;
+        this.xOffset = e.getScreenX() - this.mainPane.getTranslateX();
+        this.yOffset = e.getScreenY() - this.mainPane.getTranslateY();
     }
 
     private void dragWindow(MouseEvent e) {
         if(!this.minimized) {
-            this.translateX = e.getScreenX() - this.xOffset;
-            this.translateY = e.getScreenY() - this.yOffset;
-            this.mainPane.setTranslateX(this.translateX);
-            this.mainPane.setTranslateY(this.translateY);
+            this.mainPane.setTranslateX(e.getScreenX() - this.xOffset);
+            this.mainPane.setTranslateY(e.getScreenY() - this.yOffset);
         }
     }
 
@@ -67,8 +63,8 @@ public class InternalWindowController {
             if (!this.minimized) {
                 this.heightBeforeCollapse = this.mainPane.getHeight();
                 this.mainPane.setPrefHeight(30);
-                this.beforeMinimizingTranslateX = this.translateX;
-                this.beforeMinimizingTranslateY = this.translateY;
+                this.beforeMinimizingTranslateX = this.mainPane.getTranslateX();
+                this.beforeMinimizingTranslateY = this.mainPane.getTranslateY();
                 this.mainPane.setTranslateX(0);
                 this.mainPane.setTranslateY(0);
                 this.collapseButton.setDisable(true);

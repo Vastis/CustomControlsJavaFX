@@ -3,8 +3,9 @@
 
 <AnchorPane fx:id="mainPane" styleClass="main-pane"
             xmlns:fx="http://javafx.com/fxml"
-            prefWidth="800" prefHeight="600">
+            prefWidth="1600" prefHeight="900">
     <children>
-        <InternalWindow minHeight="30" prefWidth="400" prefHeight="300"/>
+        <InternalWindow translateX="100" translateY="200" minHeight="30" prefWidth="400" prefHeight="300"/>
+        <InternalWindow translateX="600" translateY="200" minHeight="30" prefWidth="400" prefHeight="300"/>
     </children>
 </AnchorPane>
